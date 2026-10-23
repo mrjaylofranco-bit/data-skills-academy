@@ -3,12 +3,12 @@ import { BookOpen, CheckCircle2, Code2, Database, FileSpreadsheet, Gauge, Gradua
 
 const LEVELS = ["Beginner", "Intermediate", "Professional"];
 const modules = {
-  Excel: { icon: FileSpreadsheet, lessons: ["Workbook Fundamentals", "Data Entry and Cell References", "Essential Math Formulas", "Text and Date Functions", "Formatting for Readability", "Sorting and Filtering", "Excel Tables", "Introduction to Charts", "Conditional Formatting", "Sales Tracker Project"] },
-  SQL: { icon: Database, lessons: ["Database Foundations", "SELECT and FROM", "Filtering with WHERE", "Sorting Results", "Calculated Columns", "Aggregate Functions", "GROUP BY and HAVING", "JOINs", "NULL and CASE", "Sales Database Project"] },
-  "Google Sheets": { icon: Table2, lessons: ["Sheets Fundamentals", "Cell References", "Core Formulas", "Text and Date Functions", "Formatting", "Sort and Filter", "Data Validation", "Charts", "Collaboration", "Team Tracker Project"] },
-  "Power BI": { icon: Gauge, lessons: ["BI Foundations", "Desktop Tour", "Connecting to Data", "Power Query", "Core Visuals", "Filters and Slicers", "Relationships", "DAX Measures", "Report Design", "Sales Report Project"] },
-  Tableau: { icon: LayoutDashboard, lessons: ["Visual Analytics", "Connect to Data", "Dimensions and Measures", "Core Charts", "Filters", "Groups and Sets", "Calculated Fields", "Maps", "Dashboards", "Sales Story Project"] },
-  Python: { icon: Terminal, lessons: ["Python Setup", "Variables and Types", "Conditions", "Loops", "Functions", "Lists and Tuples", "Dictionaries and Sets", "Files and Exceptions", "pandas Introduction", "Sales Analyzer Project"] }
+  "Excel": { icon: FileSpreadsheet, lessons: { "Beginner": ["Workbook Fundamentals", "Data Entry and Cell References", "Essential Math Formulas", "Text and Date Functions", "Formatting for Readability", "Sorting and Filtering", "Excel Tables", "Introduction to Charts", "Conditional Formatting", "Beginner Sales Tracker Project"], "Intermediate": ["Logical Functions", "XLOOKUP and INDEX-MATCH", "SUMIFS and COUNTIFS", "Data Validation and Named Ranges", "PivotTables", "PivotCharts and Slicers", "Cleaning Data with Power Query", "Dynamic Array Formulas", "What-If Analysis and Goal Seek", "Interactive Operations Dashboard"], "Professional": ["Advanced Formula Architecture with LET", "Power Pivot Data Models", "DAX Measures in Excel", "Advanced Power Query M", "VBA and Macro Automation", "Workbook Performance Optimization", "Financial Modeling", "Forecasting and Scenario Design", "Governance and Error Controls", "Executive Analytics Solution"] } },
+  "SQL": { icon: Database, lessons: { "Beginner": ["Relational Database Foundations", "SELECT and FROM", "Filtering with WHERE", "Sorting and Limiting Results", "Aliases and Calculated Columns", "Aggregate Functions", "GROUP BY and HAVING", "Introduction to JOINs", "NULL and CASE", "Beginner Sales Database Project"], "Intermediate": ["Multi-Table JOINs", "Subqueries", "Common Table Expressions", "Window Functions", "String Functions", "Date and Time Analysis", "Set Operators", "INSERT UPDATE and DELETE", "Views and Reusable Queries", "Customer Analytics Project"], "Professional": ["Query Execution and Optimization", "Index Design", "Advanced Window Patterns", "Recursive CTEs", "Transactions and Concurrency", "Stored Procedures", "Dimensional Data Modeling", "Security and Permissions", "Data Warehousing Patterns", "Production Analytics Pipeline"] } },
+  "Google Sheets": { icon: Table2, lessons: { "Beginner": ["Sheets Interface and Files", "Cells Ranges and References", "Core Formulas", "Text and Date Functions", "Formatting and Themes", "Sort and Filter", "Data Validation", "Charts", "Sharing and Collaboration", "Beginner Team Tracker Project"], "Intermediate": ["IF and Logical Functions", "Lookup Functions", "QUERY Function", "FILTER and Array Formulas", "Pivot Tables", "Named Ranges", "Import Functions", "Advanced Charts", "Protected Workflows", "Collaborative Dashboard"], "Professional": ["Advanced QUERY Patterns", "Scalable Array Formulas", "Apps Script Fundamentals", "Custom Functions", "Triggers and Automation", "API Workflow Concepts", "Performance Design", "Security and Governance", "Connected Data Workflows", "Automated Reporting System"] } },
+  "Power BI": { icon: Gauge, lessons: { "Beginner": ["Business Intelligence Foundations", "Power BI Desktop Tour", "Connecting to Data", "Power Query Basics", "Core Visuals", "Filters and Slicers", "Table Relationships", "First DAX Measures", "Report Design Principles", "Beginner Sales Report Project"], "Intermediate": ["Star Schema Modeling", "DAX Evaluation Context", "Time Intelligence", "Advanced Power Query", "Drillthrough and Tooltips", "Bookmarks and Navigation", "Row-Level Security", "Performance Analyzer", "Power BI Service", "Operations Dashboard Project"], "Professional": ["Enterprise Semantic Models", "Advanced DAX Patterns", "Calculation Groups Concepts", "Incremental Refresh", "Composite Model Strategy", "Deployment Pipelines", "Governance and Lineage", "Model Optimization", "Executive Data Storytelling", "Enterprise BI Solution"] } },
+  "Tableau": { icon: LayoutDashboard, lessons: { "Beginner": ["Visual Analytics Foundations", "Connect to Data", "Dimensions and Measures", "Core Charts", "Filters and Sorting", "Groups and Sets", "Calculated Fields", "Maps", "Dashboard Basics", "Beginner Sales Story Project"], "Intermediate": ["Table Calculations", "Level of Detail Expressions", "Parameters", "Relationships and Data Blending", "Dashboard Actions", "Advanced Mapping", "Date Analysis", "Dashboard Usability", "Publishing and Permissions", "Interactive KPI Dashboard"], "Professional": ["Advanced LOD Patterns", "Table Calculation Architecture", "Performance Recording", "Data Source Strategy", "Dynamic Dashboard Systems", "Statistical Analytics", "Enterprise Governance", "Embedded Analytics Concepts", "Executive Storytelling", "Enterprise Tableau Solution"] } },
+  "Python": { icon: Terminal, lessons: { "Beginner": ["Python Setup and Syntax", "Variables and Data Types", "Conditions", "Loops", "Functions", "Lists and Tuples", "Dictionaries and Sets", "Files and Exceptions", "Introduction to pandas", "Beginner Sales Analyzer Project"], "Intermediate": ["Object-Oriented Python", "Comprehensions and Generators", "Modules and Virtual Environments", "NumPy Foundations", "pandas Transformation", "Data Cleaning", "Data Visualization", "Regular Expressions", "Testing and Debugging", "Analytics Pipeline Project"], "Professional": ["Software Architecture", "Advanced Python Patterns", "Type Hints and Validation", "Performance and Profiling", "Concurrent Workflows", "Database Integration", "API Design Concepts", "Production Testing", "Packaging and Deployment", "Production Data Application"] } }
 };
 
 const lessonExamples = {
@@ -67,19 +67,152 @@ function genericExample(module, index, title) {
 }
 
 function getLessonContent(module, level, index, title) {
-  const source = lessonExamples[module]?.[index] || genericExample(module, index, title);
-  const stepSets = {
-    Excel: ["Open a blank workbook and create clear headers.", "Enter the sample data in the indicated cells.", "Select the output cell and enter the formula or command shown.", "Copy the formula down or apply the command to the target range.", "Change one input and verify that the result updates correctly."],
-    SQL: ["Open a SQL editor and create or select the sample database.", "Review table names, columns, and data types.", "Type the query exactly as shown.", "Run the query and inspect the returned rows.", "Change one clause, rerun the query, and compare the result."],
-    "Google Sheets": ["Create a new spreadsheet and add clear headers.", "Enter at least five sample rows.", "Apply the formula, feature, or sharing setting shown.", "Review the result and correct any invalid values.", "Change one source value and confirm that the output updates."],
-    "Power BI": ["Open Power BI Desktop and connect to the sample source.", "Use Power Query to verify data types and clean the data.", "Create the required relationship, measure, or visual.", "Format the report with clear titles, labels, and number formats.", "Test the report with Region and Date filters."],
-    Tableau: ["Connect Tableau to the sample data and verify field roles.", "Open a worksheet and place the required fields on Rows or Columns.", "Choose the mark type or enter the calculated field shown.", "Add filters, labels, and useful tooltips.", "Test the worksheet or dashboard interaction."],
-    Python: ["Open a Python notebook or editor.", "Enter the sample variables and import any required library.", "Type the code exactly as shown, preserving indentation.", "Run the code and compare the output with the example table.", "Change one input and rerun the code to confirm understanding."]
+  const levelGuidance = {
+    Beginner: {
+      objective: "Build a correct foundation and understand what each action changes.",
+      steps: [
+        `Open ${module} and create a small practice workspace for ${title}.`,
+        "Enter the sample data exactly as shown and inspect the field names and values.",
+        "Apply the formula, query, code, or configuration in the worked example.",
+        "Run or refresh the solution and compare every output column with the expected result.",
+        "Change one input value and confirm that the output updates in the expected direction."
+      ]
+    },
+    Intermediate: {
+      objective: "Apply the technique to a realistic business requirement and handle common data issues.",
+      steps: [
+        `Translate the business requirement for ${title} into clear technical rules.`,
+        "Prepare a multi-table or multi-step sample containing blanks, duplicates, or exceptions.",
+        "Build the solution in small, testable stages using the worked example as the starting point.",
+        "Validate totals, row counts, filter behavior, and edge cases with a second method.",
+        "Package the result as a reusable report, query, function, or documented workflow."
+      ]
+    },
+    Professional: {
+      objective: "Design a production-ready solution with performance, security, governance, and maintainability.",
+      steps: [
+        `Define scale, refresh, security, ownership, and service expectations for ${title}.`,
+        "Choose an architecture that separates source data, business logic, presentation, and controls.",
+        "Implement the professional pattern shown below with explicit error handling and documentation.",
+        "Measure performance and reconcile the result against a trusted control total.",
+        "Document deployment, monitoring, recovery, change control, and support responsibilities."
+      ]
+    }
   };
+
+  const samplePatterns = {
+    Excel: {
+      Beginner: [
+        "Create sheets named Raw_Data, Calculations, and Dashboard.",
+        "In C2 enter =A2*B2. In F2 enter =$E$1*C2, then copy both formulas down.",
+        "=SUM(D2:D11)\n=AVERAGE(D2:D11)\n=MIN(D2:D11)\n=MAX(D2:D11)",
+        "=TEXTJOIN(\" \",TRUE,A2,B2)\n=TEXT(C2,\"mmmm yyyy\")",
+        "Format Revenue as Currency, Growth as Percentage, and Order Date as a date.",
+        "Filter Region to East, then sort Revenue from Largest to Smallest.",
+        "Convert A1:D100 to a table named SalesData.\n=SUM(SalesData[Revenue])",
+        "Select Month and Sales, then insert a Line chart titled Monthly Sales Trend.",
+        "Apply a red-fill rule to Profit values below 0.",
+        "Create Revenue with =[@Units]*[@Price], then add a total row and a Region filter."
+      ],
+      Intermediate: [
+        "=IF(AND(D2>=100000,E2>=0.9),\"On Track\",\"Review\")",
+        "=XLOOKUP(A2,Products[ProductID],Products[Price],\"Not found\")",
+        "=SUMIFS(Sales[Revenue],Sales[Region],H2,Sales[Date],\">=\"&H3,Sales[Date],\"<=\"&H4)",
+        "Create a named range RegionList and apply List validation to Sales[Region].",
+        "PivotTable: Region in Rows, Product in Columns, Revenue in Values as Sum.",
+        "Insert a PivotChart and connect Region and Product slicers.",
+        "Power Query: Trim Customer, replace null Quantity with 0, type Date, remove duplicate OrderID.",
+        "=SORT(UNIQUE(FILTER(Sales[Product],Sales[Region]=H2)))",
+        "Use Goal Seek: set Profit to 500000 by changing Unit Price.",
+        "Combine KPI formulas, PivotTables, charts, a timeline, and slicers on one dashboard."
+      ],
+      Professional: [
+        "=LET(r,Sales[Revenue],reg,Sales[Region],SUM(FILTER(r,reg=H2)))",
+        "Create one-to-many relationships from Calendar and Product to the Sales fact table.",
+        "Total Sales := SUM(Sales[Revenue])\nSales LY := CALCULATE([Total Sales],SAMEPERIODLASTYEAR(Calendar[Date]))",
+        "Table.NestedJoin(Sales,{\"CustomerID\"},Customers,{\"CustomerID\"},\"Customer\",JoinKind.LeftOuter)",
+        "Sub RefreshReport()\n  ThisWorkbook.RefreshAll\n  Worksheets(\"Dashboard\").Range(\"B2\").Value = Now\nEnd Sub",
+        "Replace volatile full-column formulas with bounded table references and record recalculation time.",
+        "Free Cash Flow = EBIT*(1-Tax Rate)+D&A-Capex-Change in NWC",
+        "Create Base, Upside, and Downside assumption blocks and select one using CHOOSE/MATCH.",
+        "=IFERROR(XLOOKUP(A2,Products[ID],Products[Price]),NA())",
+        "Deliver a governed model, KPI dictionary, reconciliation sheet, executive dashboard, and refresh log."
+      ]
+    },
+    SQL: {
+      Beginner: [
+        "CREATE TABLE customers (customer_id INT PRIMARY KEY, name VARCHAR(100));",
+        "SELECT order_id, customer_id, sales FROM orders;",
+        "SELECT * FROM orders WHERE sales > 1000;",
+        "SELECT * FROM orders ORDER BY sales DESC LIMIT 10;",
+        "SELECT quantity * unit_price AS revenue FROM order_items;",
+        "SELECT COUNT(*) AS orders, SUM(sales) AS total_sales FROM orders;",
+        "SELECT region, SUM(sales) total_sales FROM orders GROUP BY region HAVING SUM(sales)>100000;",
+        "SELECT o.order_id,c.name FROM orders o JOIN customers c ON o.customer_id=c.customer_id;",
+        "SELECT order_id,CASE WHEN shipped_date IS NULL THEN 'Open' ELSE 'Shipped' END status FROM orders;",
+        "SELECT region,COUNT(*) orders,SUM(sales) sales FROM orders GROUP BY region ORDER BY sales DESC;"
+      ],
+      Intermediate: [
+        "SELECT o.order_id,c.name,p.product_name FROM orders o JOIN customers c ON o.customer_id=c.customer_id JOIN products p ON o.product_id=p.product_id;",
+        "SELECT * FROM orders WHERE sales > (SELECT AVG(sales) FROM orders);",
+        "WITH regional AS (SELECT region,SUM(sales) sales FROM orders GROUP BY region) SELECT * FROM regional WHERE sales>100000;",
+        "SELECT region,order_date,sales,SUM(sales) OVER(PARTITION BY region ORDER BY order_date) running_sales FROM orders;",
+        "SELECT UPPER(TRIM(customer_name)) clean_name FROM customers;",
+        "SELECT DATE_TRUNC('month',order_date) month,SUM(sales) FROM orders GROUP BY 1;",
+        "SELECT customer_id FROM web_orders UNION SELECT customer_id FROM store_orders;",
+        "UPDATE orders SET status='Closed' WHERE shipped_date IS NOT NULL;",
+        "CREATE VIEW monthly_sales AS SELECT DATE_TRUNC('month',order_date) month,SUM(sales) sales FROM orders GROUP BY 1;",
+        "WITH x AS (SELECT customer_id,SUM(sales) sales FROM orders GROUP BY customer_id) SELECT *,NTILE(4) OVER(ORDER BY sales DESC) segment FROM x;"
+      ],
+      Professional: [
+        "EXPLAIN ANALYZE SELECT * FROM orders WHERE customer_id=42;",
+        "CREATE INDEX idx_orders_customer_date ON orders(customer_id,order_date);",
+        "SELECT *,LAG(sales) OVER(PARTITION BY region ORDER BY month) prior_sales FROM monthly_sales;",
+        "WITH RECURSIVE org AS (SELECT employee_id,manager_id,1 depth FROM employees WHERE manager_id IS NULL UNION ALL SELECT e.employee_id,e.manager_id,o.depth+1 FROM employees e JOIN org o ON e.manager_id=o.employee_id) SELECT * FROM org;",
+        "BEGIN; UPDATE accounts SET balance=balance-100 WHERE id=1; UPDATE accounts SET balance=balance+100 WHERE id=2; COMMIT;",
+        "CREATE PROCEDURE close_period(IN p_date DATE) BEGIN UPDATE periods SET status='Closed' WHERE end_date=p_date; END;",
+        "CREATE TABLE fact_sales (...); CREATE TABLE dim_customer (...); CREATE TABLE dim_date (...);",
+        "GRANT SELECT ON analytics.monthly_sales TO analyst_role;",
+        "INSERT INTO fact_sales SELECT ... FROM staging_sales s LEFT JOIN dim_customer c ON s.customer_key=c.customer_key;",
+        "BEGIN; CALL validate_stage(:load_id); CALL load_dimensions(:load_id); CALL load_facts(:load_id); COMMIT;"
+      ]
+    },
+    "Google Sheets": {
+      Beginner: ["Create tabs named Raw Data, Analysis, and Dashboard.","=A2*$F$1","=SUM(D2:D100)","=TEXTJOIN(\" \",TRUE,A2,B2)&\" | \"&TEXT(C2,\"mmm yyyy\")","Apply currency, percentage, and date formats to matching fields.","Create a filter and sort Sales Z to A.","Apply a dropdown from Settings!A2:A10.","Insert a line chart using Month and Sales.","Share with an Editor and a Viewer, then review version history.","Build a shared tracker with Owner, Due Date, Status, and Notes."],
+      Intermediate: ["=IF(AND(D2>=100000,E2>=0.9),\"On Track\",\"Review\")","=XLOOKUP(A2,Products!A:A,Products!D:D,\"Not found\")","=QUERY(A1:D,\"select B,sum(D) group by B label sum(D) 'Sales'\",1)","=SORT(FILTER(A2:D,D2:D>1000),4,FALSE)","Create a pivot table with Region as Rows and SUM of Sales as Values.","Name Settings!B2 StartDate and use =FILTER(A:D,A:A>=StartDate).","=IMPORTRANGE(\"spreadsheet_url\",\"Sales!A1:D100\")","Create a combo chart with Sales columns and Margin % line.","Protect formula columns and allow edits only in input cells.","Combine QUERY summaries, charts, slicers, and KPI cells."],
+      Professional: ["=QUERY({Sales!A:D},\"select Col2,sum(Col4) where Col1 is not null group by Col2\",1)","=MAP(A2:A,LAMBDA(id,IF(id=\"\",,XLOOKUP(id,Products!A:A,Products!D:D))))","function onOpen(){SpreadsheetApp.getUi().createMenu('Tools').addItem('Refresh','refresh').addToUi();}","function NETSALES(gross,discount){return gross*(1-discount);}","Create a weekday 7 AM trigger for refreshReport.","Use UrlFetchApp, parse JSON, and write values with setValues in one batch.","Replace repeated full-column formulas with bounded ARRAYFORMULA logic.","Protect source tabs, use Google Groups, and audit sharing monthly.","Connect intake, validation, reporting, and archive sheets with controlled IDs.","Validate submissions, refresh summaries, create a PDF, and log completion with Apps Script."]
+    },
+    "Power BI": {
+      Beginner: ["Define the question: Which regions miss monthly target?","Review Report, Data, and Model views.","Get Data > Excel > select Sales > Transform Data.","Remove blanks, set Date type, and rename Amount to Sales.","Line chart: Month on Axis and Total Sales in Values.","Add a Region slicer and a Sales > 0 visual filter.","Relate Sales[ProductID] many-to-one to Product[ProductID].","Total Sales = SUM(Sales[Sales])","Align visuals to a grid and apply a navy-and-teal theme.","Build KPI cards, monthly trend, region bars, product table, and slicers."],
+      Intermediate: ["Model FactSales with DimDate, DimProduct, DimCustomer, and DimRegion.","Sales All Products = CALCULATE([Total Sales],REMOVEFILTERS(Product))","Sales YTD = TOTALYTD([Total Sales],'Date'[Date])","Combine folder files, invoke a transform function, and load only required columns.","Create a Customer drillthrough page and a report-page tooltip.","Create Overview and Detail bookmarks connected to navigation buttons.","[Region] = LOOKUPVALUE(Security[Region],Security[UPN],USERPRINCIPALNAME())","Record the page in Performance Analyzer and inspect DAX query duration.","Publish to a workspace, configure credentials, schedule refresh, and create an app.","Build service level, volume, AHT, staffing, trend, and interval drillthrough views."],
+      Professional: ["Create certified shared dimensions and thin reports connected to one semantic model.","Rolling 12M = CALCULATE([Total Sales],DATESINPERIOD('Date'[Date],MAX('Date'[Date]),-12,MONTH))","Create a Time calculation group with Current, MTD, QTD, YTD, and Prior Year.","Keep 5 years and refresh only the last 10 days with incremental refresh.","Use DirectQuery for current transactions and Import for historical aggregates.","Promote content through Development, Test, and Production pipelines.","Endorse the model, document lineage, assign owners, and monitor refresh failures.","Remove unused columns, reduce cardinality, simplify relationships, and benchmark DAX.","Show KPI status, target variance, trend, drivers, exceptions, and recommended action.","Deliver a secured app, deployment process, monitoring plan, and support guide."]
+    },
+    Tableau: {
+      Beginner: ["Ask: How do sales and profit vary by region and month?","Connect to Orders.xlsx and verify field types.","Drag Region to Rows and Sales to Text.","Drag Month to Columns and Sales to Rows; choose Line.","Filter Category to Technology and sort Region by SUM(Sales).","Group low-volume products as Other and create a Top 10 Customer set.","IF SUM([Sales])=0 THEN 0 ELSE SUM([Profit])/SUM([Sales]) END","Assign State a geographic role and place Sales on Color.","Place KPI, trend, and region sheets into a tiled dashboard.","Build story points for performance, drivers, and exceptions."],
+      Intermediate: ["RUNNING_SUM(SUM([Sales]))","{ FIXED [Customer ID] : SUM([Sales]) }","Create a Top N parameter and filter with INDEX() <= [Top N].","Relate Orders to Returns by Order ID and preserve each table grain.","Add a filter action from Region chart to Product detail table.","Create distance bands and combine a filled map with proportional symbols.","DATETRUNC('month',[Order Date]) and LOOKUP(SUM([Sales]),-12)","Use consistent spacing, descriptive titles, limited colors, and visible filter state.","Publish to a project, assign permissions, and test as Viewer.","Combine KPI tiles, parameter-driven Top N, action filters, and detail-on-demand."],
+      Professional: ["{ FIXED [Customer ID] : MIN([First Order Date]) }","WINDOW_SUM(SUM([Sales]),-2,0)","Record performance and inspect query, layout, and rendering events.","Use extracts for history and governed published sources for shared dimensions.","Use parameters and show/hide containers to switch metrics and layouts.","MODEL_QUANTILE(0.95,SUM([Sales]),COUNT([Orders]))","Certify shared sources, document calculations, assign owners, and review permissions.","Embed a trusted workbook with user identity and permission enforcement.","Sequence context, performance, drivers, exceptions, and recommended action.","Deliver governed sources, optimized workbooks, secure projects, monitoring, and publishing guide."]
+    },
+    Python: {
+      Beginner: ["print('Hello, data!')","units=12\nprice=19.5\nrevenue=units*price\nprint(revenue)","sales=1200\nprint('High' if sales>=1000 else 'Standard')","for n in [10,20,30]:\n    print(n*2)","def margin(revenue,cost):\n    return (revenue-cost)/revenue\nprint(margin(1000,700))","sales=[100,150,200]\nprint(sum(sales),sales[0])","prices={'A':10,'B':15}\nregions=set(['East','East','West'])\nprint(prices['B'],regions)","try:\n    with open('sales.txt') as f: print(f.read())\nexcept FileNotFoundError:\n    print('File missing')","import pandas as pd\ndf=pd.DataFrame({'region':['East','West'],'sales':[100,150]})\nprint(df['sales'].sum())","df=pd.read_csv('sales.csv')\nprint(df.groupby('region')['sales'].sum())"],
+      Intermediate: ["class Sale:\n    def __init__(self,qty,price): self.qty,self.price=qty,price\n    def revenue(self): return self.qty*self.price","squares=[n*n for n in range(5)]\ngen=(n*n for n in range(5))","from pathlib import Path\nprint(Path.cwd())","import numpy as np\na=np.array([1,2,3])\nprint(a.mean())","summary=df.groupby('region',as_index=False).agg(sales=('sales','sum')).sort_values('sales',ascending=False)","df['date']=pd.to_datetime(df['date'],errors='coerce')\ndf=df.drop_duplicates('order_id').fillna({'sales':0})","import matplotlib.pyplot as plt\ndf.groupby('month')['sales'].sum().plot()\nplt.show()","import re\nprint(re.findall(r'[A-Z]{2}-\\d{4}','IDs: AB-1234'))","def add_tax(x): return round(x*1.12,2)\nassert add_tax(100)==112.0","df=pd.read_csv('sales.csv').drop_duplicates()\ndf.to_csv('clean_sales.csv',index=False)"],
+      Professional: ["Separate ingestion, validation, transformation, and reporting into modules with explicit interfaces.","from functools import lru_cache\n@lru_cache\ndef rate(code): return expensive_lookup(code)","def total(values: list[float]) -> float:\n    return sum(values)","import cProfile\ncProfile.run('build_report()')","from concurrent.futures import ThreadPoolExecutor\nwith ThreadPoolExecutor() as ex: results=list(ex.map(fetch,urls))","from sqlalchemy import text\nwith engine.begin() as c: rows=c.execute(text('SELECT * FROM sales WHERE date>=:d'),{'d':start})","@app.get('/sales/{region}')\ndef sales(region:str): return service.by_region(region)","def test_total():\n    assert total([10,20])==30","python -m build\npip install dist/analytics_app-1.0.0-py3-none-any.whl","Package a validated data service, database layer, tests, logging, configuration, and deployment definition."]
+    }
+  };
+
+  const sample = samplePatterns[module][level][index];
+  const outputs = {
+    Beginner: [["Lesson", "Applied Skill", "Result"], [[title, "Foundation workflow", "Correct and verified"], ["Manual check", "One sample record", "Passed"]]],
+    Intermediate: [["Business Requirement", "Implementation", "Validation"], [[title, "Reusable applied solution", "Control total matched"], ["Edge cases", "Blanks and duplicates tested", "Passed"]]],
+    Professional: [["Production Control", "Implementation", "Status"], [[title, "Governed scalable solution", "Ready for review"], ["Performance and security", "Measured and documented", "Passed"]]]
+  };
+  const [columns, rows] = outputs[level];
   return {
-    steps: level === "Professional" ? [...stepSets[module], "Document assumptions, controls, performance checks, and deployment requirements."] : stepSets[module],
-    sample: source[0], columns: source[1], rows: source[2],
-    result: `A verified ${module} outcome demonstrating ${title} at the ${level.toLowerCase()} level.`
+    explanation: `${title} is a ${level.toLowerCase()} ${module} capability. ${levelGuidance[level].objective} This lesson focuses on a different skill and deliverable from the other levels, so the example, process, and outcome are specific to ${title}.`,
+    steps: levelGuidance[level].steps,
+    sample,
+    columns,
+    rows,
+    result: `${title} produces a ${level.toLowerCase()}-appropriate ${module} deliverable that has been validated against the expected outcome.`
   };
 }
 
@@ -94,7 +227,7 @@ export default function App() {
 
   const lessonId = lesson => `${lesson.module}|${lesson.level}|${lesson.index}`;
   const toggleComplete = lesson => setCompleted(current => current.includes(lessonId(lesson)) ? current.filter(id => id !== lessonId(lesson)) : [...current, lessonId(lesson)]);
-  const lessons = useMemo(() => Object.entries(modules).flatMap(([module, data]) => LEVELS.flatMap(level => data.lessons.map((title, index) => ({module, level, title, index})))), []);
+  const lessons = useMemo(() => Object.entries(modules).flatMap(([module, data]) => LEVELS.flatMap(level => data.lessons[level].map((title, index) => ({module, level, title, index})))), []);
   const filtered = lessons.filter(item => (moduleFilter === "All" || item.module === moduleFilter) && (levelFilter === "All" || item.level === levelFilter) && `${item.module} ${item.level} ${item.title}`.toLowerCase().includes(query.toLowerCase()));
   const totalLessons = lessons.length;
   const completedCount = completed.length;
@@ -116,10 +249,10 @@ export default function App() {
     </section>
   </main>;
 
-  if (selected) { const lesson=getLessonContent(selected.module,selected.level,selected.index,selected.title); const titles=modules[selected.module].lessons; return <main className="min-h-screen bg-[#F4F7FA]">
+  if (selected) { const lesson=getLessonContent(selected.module,selected.level,selected.index,selected.title); const titles=modules[selected.module].lessons[selected.level]; return <main className="min-h-screen bg-[#F4F7FA]">
     <header className="sticky top-0 z-40 border-b bg-white/95 shadow-sm backdrop-blur"><div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3"><button onClick={()=>setSelected(null)} className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl bg-teal-500 text-white"><GraduationCap size={22}/></span><span className="text-left"><b className="block text-[#0A2342]">DataSkills Academy</b><span className="text-xs text-slate-500">Learn. Practice. Build.</span></span></button><button onClick={()=>setSelected(null)} className="flex items-center gap-2 rounded-xl border px-4 py-2"><X size={16}/>Close lesson</button></div></header>
     <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 lg:grid-cols-[260px_1fr]"><aside className="hidden lg:block"><div className="sticky top-24 overflow-hidden rounded-3xl bg-[#0A2342] p-3 text-white"><div className="p-3"><p className="text-xs uppercase tracking-wider text-teal-300">{selected.module}</p><h2 className="mt-2 text-xl font-black">{selected.level} path</h2></div>{titles.map((title,index)=><button key={title} onClick={()=>setSelected({...selected,title,index})} className={`mb-1 w-full rounded-xl px-3 py-2 text-left text-sm ${index===selected.index?"bg-teal-500":"hover:bg-white/10"}`}>{index+1}. {title}</button>)}</div></aside><article className="min-w-0"><div className="rounded-3xl bg-gradient-to-br from-[#0A2342] to-[#07535D] p-8 text-white"><div className="flex gap-2 text-xs"><span className="rounded-full bg-white/10 px-3 py-1">{selected.module}</span><span className="rounded-full bg-teal-400/20 px-3 py-1">{selected.level}</span></div><h1 className="mt-6 text-4xl font-black">{selected.title}</h1><p className="mt-4 text-slate-200">Learn the concept, follow the process, study a practical example, and compare your work with the expected outcome.</p></div>
-    <section className="mt-6 rounded-3xl border bg-white p-7"><h2 className="flex items-center gap-3 text-2xl font-black"><BookOpen className="text-teal-600"/>Concept explanation</h2><p className="mt-5 leading-8 text-slate-600">{selected.title} is an important part of {selected.module}. Begin with the business question, inspect the source data, apply the correct technique, and validate the result with a small known sample before scaling.</p></section>
+    <section className="mt-6 rounded-3xl border bg-white p-7"><h2 className="flex items-center gap-3 text-2xl font-black"><BookOpen className="text-teal-600"/>Concept explanation</h2><p className="mt-5 leading-8 text-slate-600">{lesson.explanation}</p></section>
     <section className="mt-6 rounded-3xl border bg-white p-7"><h2 className="text-2xl font-black">Step-by-step process</h2><ol className="mt-6 space-y-4">{lesson.steps.map((step,i)=><li key={step} className="flex gap-4 rounded-2xl bg-slate-50 p-4"><span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#0A2342] text-white">{i+1}</span><p className="pt-1.5">{step}</p></li>)}</ol></section>
     <section className="mt-6 overflow-hidden rounded-3xl bg-[#071A2F] text-white"><div className="border-b border-white/10 p-5"><h2 className="flex items-center gap-2 font-bold"><Code2 className="text-teal-300"/>Example code or action</h2></div><pre className="overflow-x-auto whitespace-pre-wrap p-7 text-sm leading-7 text-teal-100"><code>{lesson.sample}</code></pre><div className="border-t border-white/10 bg-white/5 p-6"><p className="text-xs uppercase text-teal-300">What this produces</p><p className="mt-2 text-slate-200">{lesson.result}</p></div></section>
     <section className="mt-6 overflow-hidden rounded-3xl border bg-white"><div className="border-b bg-slate-50 p-6"><h2 className="text-2xl font-black">Example outcome</h2></div><div className="overflow-x-auto"><table className="w-full text-left text-sm"><thead className="bg-[#0A2342] text-white"><tr>{lesson.columns.map(x=><th key={x} className="px-6 py-4">{x}</th>)}</tr></thead><tbody>{lesson.rows.map((row,i)=><tr key={i} className="border-b even:bg-slate-50">{row.map((x,j)=><td key={j} className="px-6 py-4">{x}</td>)}</tr>)}</tbody></table></div></section>
